@@ -3,8 +3,8 @@ class pynigma(object):
     def __init__(self, key):
         self.key = key
         self.raster_ori = [["A","B","C","D","E","F","G","H","I"],["J","K","L","M","N","O","P","Q","R"],["S","T","U","V","W","X","Y","Z","a"],["b","c","d","e","f","g","h","i","j"],["k","l","m","n","o","p","q","r","s"],["t","u","v","w","x","y","z","0","1"],["2","3","4","5","6","7","8","9",","],[".",";","%","€","_","#"," ","?","-"],["+","*","|","&","@",">","<","é","/"]]
-        #self.raster_code = [["A","B","C","D","E","F","G","H","I"],["J","K","L","M","N","O","P","Q","R"],["S","T","U","V","W","X","Y","Z","a"],["b","c","d","e","f","g","h","i","j"],["k","l","m","n","o","p","q","r","s"],["t","u","v","w","x","y","z","0","1"],["2","3","4","5","6","7","8","9",","],[".",";","%","€","_","#"," ","?","-"],["+","*","|","&","@",">","<","é","/"]]
         self.raster_code = self.raster_ori.copy()
+
     def trace(self,raster,karakter):
         coor=[]
         for lijn in range(len(raster)):
@@ -33,17 +33,19 @@ class pynigma(object):
             tekst_code = tekst_code + self.lees_raster(self.raster_ori,coor)
         return tekst_code
 
-    def shift_x_l(self,n):
-        for lijn in range(len(self.raster_code)):
+    def shift_x_l(self,n,list):
+        # for lijn in range(len(self.raster_code)):
+        #     self.raster_code[lijn] = self.raster_code[lijn][n:] + self.raster_code[lijn][0:n]
+        for lijn in list:
             self.raster_code[lijn] = self.raster_code[lijn][n:] + self.raster_code[lijn][0:n]
-    def shift_x_r(self,n):
-        for lijn in range(len(self.raster_code)):
+    def shift_x_r(self,n,list):
+        for lijn in list:
             self.raster_code[lijn] = self.raster_code[lijn][-n:] + self.raster_code[lijn][:-n]
 
-    def shift_y_b(self,n):
+    def shift_y_b(self,n,list):
         self.raster_code = self.raster_code[n:] + self.raster_code[0:n]
 
-    def shift_y_o(self,n):
+    def shift_y_o(self,n,list):
         self.raster_code = [self.raster_code[-n:]] + self.raster_code[:-n]
 
     def print_raster(self,raster):
@@ -53,11 +55,11 @@ class pynigma(object):
 def main():
     Gen1 = pynigma(123)
     print("###GECODEERDE TEKST###")
-    Gen1.shift_y_b(1)
-    Gen1.shift_x_l(2)
-    Gen1.shift_y_b(1)
-    Gen1.shift_x_r(3)
-    Gen1.shift_y_b(2)
+    Gen1.shift_y_b(1,[0,1,2,3,4,5,6,7,8])
+    Gen1.shift_x_l(2,[0,1,2,3,4,5,6,7,8])
+    Gen1.shift_y_b(1,[0,1,2,3,4,5,6,7,8])
+    Gen1.shift_x_r(3,[0,1,2,3,4,5,6,7,8])
+    Gen1.shift_y_b(2,[0,1,2,3,4,5,6,7,8])
     print(Gen1.codeer("ABC"))
     print("###GEDECODEERDE TEKST###")
     print(Gen1.decodeer(Gen1.codeer("ABC")))
